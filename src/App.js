@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Summary from './Summary'
+import Features from './Features'
 
 class App extends Component {
   constructor(props){
@@ -38,61 +39,20 @@ class App extends Component {
 
   render() {
 
-
-    // creates block elements in right-hand summary tab that displays laptop config
-    // option and price
-    const summary = Object.keys(this.state.selected)
-          .map(key => <div className="summary__option" key={key}>
-            <div className="summary__option__label">{key}  </div>
-            <div className="summary__option__value">{this.state.selected[key].name}</div>
-            <div className="summary__option__cost">
-              { new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                  .format(this.state.selected[key].cost) }
-            </div>
-        </div>)
-
-    // calculates total value of all chosen config options in right-hand summary tab
-    const total = Object.keys(this.state.selected)
-          .reduce((acc, curr) => acc + this.state.selected[curr].cost, 0);    
-
-
-    const features = Object.keys(this.props.features)
-          .map(key => {
-            // takes features from props
-            const options = this.props.features[key].map((item, index) => {
-              const selectedClass = item.name === this.state.selected[key].name ? 'feature__selected' : '';
-              const featureClass = 'feature__option ' + selectedClass;
-              return <li key={index} className="feature__item">
-                <div className={featureClass}
-                  onClick={e => this.updateFeature(key, item)}>
-                    { item.name }
-                    ({ new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
-                      .format(item.cost) })
-                </div>
-              </li>
-            });
-            // returns array of all features
-            return <div className="feature" key={key}>
-              <div className="feature__name">{key}</div>
-              <ul className="feature__list">
-                { options }
-              </ul>
-            </div>
-          });      
-
     return (
       // returns page content
       <div className="App">
         <header>
           <h1>ELF Computing</h1>
           <h3>Laptops</h3>
-          <h5>Customize your laptop</h5>  
-        </header>      
+          <h5>Customize your laptop</h5>
+        </header>
         <main>
-          <section className="main__form">
-            <h3>TECH SPECS AND CUSTOMIZATIONS</h3>
-            { features }
-          </section>
+          <Features
+            features={this.props.features}
+            selected={this.state.selected}
+            updateFeature={this.updateFeature}
+            />
           <Summary selected={this.state.selected}/>
         </main>
       </div>
@@ -100,4 +60,4 @@ class App extends Component {
   }
 }
 
-export default App;  
+export default App;
