@@ -26,6 +26,7 @@ class App extends Component {
     }
   }
 
+  // takes in props to update store based on clicked laptop config option
   updateFeature(feature, newValue) {
     const selected = Object.assign({}, this.state.selected);
     selected[feature] = newValue;
@@ -35,6 +36,9 @@ class App extends Component {
   }
 
   render() {
+
+    // creates block elements in right-hand summary tab that displays laptop config
+    // option and price
     const summary = Object.keys(this.state.selected)
           .map(key => <div className="summary__option" key={key}>
             <div className="summary__option__label">{key}  </div>
@@ -45,18 +49,19 @@ class App extends Component {
             </div>
         </div>)
 
+    // calculates total value of all chosen config options in right-hand summary tab
     const total = Object.keys(this.state.selected)
           .reduce((acc, curr) => acc + this.state.selected[curr].cost, 0);    
 
 
     const features = Object.keys(this.props.features)
           .map(key => {
+            // takes features from props
             const options = this.props.features[key].map((item, index) => {
               const selectedClass = item.name === this.state.selected[key].name ? 'feature__selected' : '';
               const featureClass = 'feature__option ' + selectedClass;
               return <li key={index} className="feature__item">
                 <div className={featureClass}
-                  
                   onClick={e => this.updateFeature(key, item)}>
                     { item.name }
                     ({ new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD'})
@@ -64,7 +69,7 @@ class App extends Component {
                 </div>
               </li>
             });
-
+            // returns array of all features
             return <div className="feature" key={key}>
               <div className="feature__name">{key}</div>
               <ul className="feature__list">
@@ -74,6 +79,7 @@ class App extends Component {
           });      
 
     return (
+      // returns page content
       <div className="App">
         <header>
           <h1>ELF Computing</h1>
