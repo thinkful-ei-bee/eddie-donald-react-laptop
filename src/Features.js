@@ -12,7 +12,7 @@ export default class Features extends React.Component {
             	return (
             	<Feature
 	            	value={key}
-	            	items={item}
+	            	item={item}
 	            	index={index}
 	            	updateFeature = {this.props.updateFeature}
 	            	selected={this.props.selected}

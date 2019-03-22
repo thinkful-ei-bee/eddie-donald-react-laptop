@@ -29,7 +29,8 @@ class App extends Component {
   }
 
   // takes in props to update store based on clicked laptop config option
-  updateFeature(feature, newValue) {
+  updateFeature = (feature, newValue) => {
+    console.log(this);
     const selected = Object.assign({}, this.state.selected);
     selected[feature] = newValue;
     this.setState({
